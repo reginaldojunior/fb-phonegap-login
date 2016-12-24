@@ -6,14 +6,8 @@
     "config_munge": {
         "files": {}
     },
-    "installed_plugins": {
-        "org.apache.cordova.inappbrowser": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
-        }
-    },
+    "installed_plugins": {},
     "dependent_plugins": {},
     "modules": [],
-    "plugin_metadata": {
-        "org.apache.cordova.inappbrowser": "0.5.2"
-    }
+    "plugin_metadata": {}
 }

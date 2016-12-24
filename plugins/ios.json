@@ -27,10 +27,6 @@
             }
         }
     },
-    "installed_plugins": {
-        "org.apache.cordova.inappbrowser": {
-            "PACKAGE_NAME": "io.cordova.hellocordova"
-        }
-    },
+    "installed_plugins": {},
     "dependent_plugins": {}
 }
