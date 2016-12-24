@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<script type="text/javascript" src="cordova.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/fbgap.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+		document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {  
+    
+    //Config Plugin
+    var config = {
+        app_id		: "232056813903762",
+        secret		: "e4a802fb0a4cc6253366fb326848df88",
+        host		: "http://localhost",
+        scope       : 'email',
+        onLogin     : _onLogin,
+        onLogout    : _onLogout
+    };
+    
+    //Login Facebook
+    $(document).FaceGap(config);
+	    //Logout Facebook
+	    //$(document).FaceGap('logout');
+	    
+	    //Callback Login
+	    function _onLogin( event ){     
+	        alert('status > '+event.status); // 1 - success, 0 - error
+	        alert('data > '+event.data); //Object response (id, name, email, etc);
+	        alert('token > '+event.token); // token user login
+	        alert('message > '+event.message);  
+	    }
+	    
+	    //Callback Logout
+	    function _onLogout( event ){
+	        alert('status > '+event.status); // 1 - success, 0 - error
+	        alert('message > '+event.message);
+	    }   
+	}
+
+	</script>
+</body>
+</html>
