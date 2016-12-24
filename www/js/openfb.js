@@ -157,7 +157,7 @@ var openFB = (function () {
 
         startTime = new Date().getTime();
         loginWindow = window.open(loginURL + '?client_id=' + fbAppId + '&redirect_uri=' + redirectURL +
-            '&response_type=token&scope=' + scope, '_self', 'location=no,clearcache=yes');
+            '&response_type=token&scope=' + scope, '_self');
 
         // If the app is running in Cordova, listen to URL changes in the InAppBrowser until we get a URL with an access_token or an error
         if (runningInCordova) {
@@ -208,7 +208,7 @@ var openFB = (function () {
         tokenStore.removeItem('fbtoken');
 
         if (token) {
-            logoutWindow = window.open(logoutURL + '?access_token=' + token + '&next=' + logoutRedirectURL, '_blank', 'location=no,clearcache=yes');
+            logoutWindow = window.open(logoutURL + '?access_token=' + token + '&next=' + logoutRedirectURL, '_self');
             if (runningInCordova) {
                 setTimeout(function() {
                     logoutWindow.close();
