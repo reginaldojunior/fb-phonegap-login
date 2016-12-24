@@ -118,8 +118,54 @@ var openFB = (function () {
             startTime,
             scope = '',
             redirectURL = runningInCordova ? cordovaOAuthRedirectURL : oauthRedirectURL;
-        
-        window.open(loginURL + '?client_id=' + fbAppId + '&redirect_uri=' + redirectURL + '&response_type=token&scope=' + scope, '_blank', 'location=no,clearcache=yes', '_self');
+
+        if (!fbAppId) {
+            return callback({status: 'unknown', error: 'Facebook App Id not set.'});
+        }
+
+        // Inappbrowser load start handler: Used when running in Cordova only
+        function loginWindow_loadStartHandler(event) {
+            var url = event.url;
+            if (url.indexOf("access_token=") > 0 || url.indexOf("error=") > 0) {
+                // When we get the access token fast, the login window (inappbrowser) is still opening with animation
+                // in the Cordova app, and trying to close it while it's animating generates an exception. Wait a little...
+                var timeout = 600 - (new Date().getTime() - startTime);
+                setTimeout(function () {
+                    loginWindow.close();
+                }, timeout > 0 ? timeout : 0);
+                oauthCallback(url);
+            }
+        }
+
+        // Inappbrowser exit handler: Used when running in Cordova only
+        function loginWindow_exitHandler() {
+            console.log('exit and remove listeners');
+            // Handle the situation where the user closes the login window manually before completing the login process
+            if (loginCallback && !loginProcessed) loginCallback({status: 'user_cancelled'});
+            loginWindow.removeEventListener('loadstop', loginWindow_loadStopHandler);
+            loginWindow.removeEventListener('exit', loginWindow_exitHandler);
+            loginWindow = null;
+            console.log('done removing listeners');
+        }
+
+        if (options && options.scope) {
+            scope = options.scope;
+        }
+
+        loginCallback = callback;
+        loginProcessed = false;
+
+        startTime = new Date().getTime();
+        loginWindow = window.open(loginURL + '?client_id=' + fbAppId + '&redirect_uri=' + redirectURL +
+            '&response_type=token&scope=' + scope, '_self', 'location=no,clearcache=yes');
+
+        // If the app is running in Cordova, listen to URL changes in the InAppBrowser until we get a URL with an access_token or an error
+        if (runningInCordova) {
+            loginWindow.addEventListener('loadstart', loginWindow_loadStartHandler);
+            loginWindow.addEventListener('exit', loginWindow_exitHandler);
+        }
+        // Note: if the app is running in the browser the loginWindow dialog will call back by invoking the
+        // oauthCallback() function. See oauthcallback.html for details.
 
     }
 
