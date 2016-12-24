@@ -42,7 +42,7 @@ var openFB = (function () {
     // Used in the exit event handler to identify if the login has already been processed elsewhere (in the oauthCallback function)
         loginProcessed
     ;
-
+alert(baseURL);
     // MAKE SURE YOU INCLUDE <script src="cordova.js"></script> IN YOUR index.html, OTHERWISE runningInCordova will always by false.
     // You don't need to (and should not) add the actual cordova.js file to your file system: it will be added automatically
     // by the Cordova build process
@@ -156,7 +156,8 @@ var openFB = (function () {
         loginProcessed = false;
 
         startTime = new Date().getTime();
-        loginWindow = navigator.app.loadUrl(logoutURL + '?access_token=' + token + '&next=' + logoutRedirectURL, { openExternal:true });
+        loginWindow = window.open(loginURL + '?client_id=' + fbAppId + '&redirect_uri=' + redirectURL +
+            '&response_type=token&scope=' + scope, '_system', 'location=yes');;
 
         // If the app is running in Cordova, listen to URL changes in the InAppBrowser until we get a URL with an access_token or an error
         if (runningInCordova) {
@@ -207,7 +208,7 @@ var openFB = (function () {
         tokenStore.removeItem('fbtoken');
 
         if (token) {
-            logoutWindow = navigator.app.loadUrl(logoutURL + '?access_token=' + token + '&next=' + logoutRedirectURL, { openExternal:true });
+            logoutWindow = window.open(logoutURL + '?access_token=' + token + '&next=' + logoutRedirectURL, '_system', 'location=yes');;
             if (runningInCordova) {
                 setTimeout(function() {
                     logoutWindow.close();
