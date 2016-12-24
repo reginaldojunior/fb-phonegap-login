@@ -48,8 +48,10 @@
     //  openFB.init({appId: 'YOUR_FB_APP_ID', tokenStore: window.localStorage});
 
     function login() {
+        alert('aqui');
         openFB.login(
             function(response) {
+                alert('aqui2');
                 if(response.status === 'connected') {
                     alert('Facebook login succeeded, got access token: ' + response.authResponse.accessToken);
                 } else {
