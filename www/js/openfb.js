@@ -21,7 +21,7 @@ var openFB = (function () {
 
         context = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2)),
 
-        baseURL = 'http://localhost',//location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + context,
+        baseURL = 'https://apuros-7df9c.firebaseapp.com/__/auth/handler',//location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + context,
         
     // Default OAuth redirect URL. Can be overriden in init()
         oauthRedirectURL = baseURL + '/oauthcallback.html',
